@@ -32,7 +32,7 @@ namespace GlobalKnowledgeTask.Controllers
         [Route("GetAuthorById/id")]
         public async Task<IActionResult> GetAuthorById(int id)
         {
-            var author = _authorService.GetAuthorById(id);
+            var author =await _authorService.GetAuthorById(id);
 
             if (author == null)
             {
@@ -44,7 +44,7 @@ namespace GlobalKnowledgeTask.Controllers
 
         [HttpPost]
         [Route("CreateAuthor")]
-        public  async Task<IActionResult> CreateAuthor([FromBody] AuthorDto authorDto)
+        public  async Task<IActionResult> CreateAuthor([FromBody] CreateAuthorDto authorDto)
         {
             await _authorService.AddAuthor(authorDto);
 
@@ -53,14 +53,8 @@ namespace GlobalKnowledgeTask.Controllers
 
         [HttpPut]
         [Route("UpdateAuthor/id")]
-        public async Task<IActionResult> UpdateAuthor(int id, [FromBody] AuthorDto authorDto)
+        public async Task<IActionResult> UpdateAuthor(int id, [FromBody] UpdateAuthorDto authorDto)
         {
-            var existingAuthor = _authorService.GetAuthorById(id);
-
-            if (existingAuthor == null)
-            {
-                return NotFound();
-            }
             authorDto.AuthorId = id;
            await _authorService.UpdateAuthor(authorDto);
 

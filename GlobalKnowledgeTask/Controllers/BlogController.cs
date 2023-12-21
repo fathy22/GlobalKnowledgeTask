@@ -3,6 +3,7 @@ using DomainLayer.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using ServiceLayer.Service.Implementaions;
 using ServiceLayer.Service.Interfaces;
 using ServiceLayer.UnitOfWorks;
 
@@ -34,7 +35,7 @@ namespace GlobalKnowledgeTask.Controllers
         [Route("GetBlogById/id")]
         public async Task<IActionResult> GetBlogById(int id)
         {
-            var Blog = _BlogService.GetBlogById(id);
+            var Blog =await _BlogService.GetBlogById(id);
 
             if (Blog == null)
             {
@@ -46,7 +47,7 @@ namespace GlobalKnowledgeTask.Controllers
 
         [HttpPost]
         [Route("CreateBlog")]
-        public  async Task<IActionResult> CreateBlog([FromBody] BlogDto BlogDto)
+        public  async Task<IActionResult> CreateBlog([FromBody] CreateBlogDto BlogDto)
         {
             await _BlogService.AddBlog(BlogDto);
 
@@ -55,16 +56,10 @@ namespace GlobalKnowledgeTask.Controllers
 
         [HttpPut]
         [Route("UpdateBlog/id")]
-        public async Task<IActionResult> UpdateBlog(int id, [FromBody] BlogDto BlogDto)
+        public async Task<IActionResult> UpdateBlog(int id, [FromBody] UpdateBlogDto blog)
         {
-            var existingBlog = _BlogService.GetBlogById(id);
-
-            if (existingBlog == null)
-            {
-                return NotFound();
-            }
-            BlogDto.BlogId = id;
-           await _BlogService.UpdateBlog(BlogDto);
+            blog.BlogId = id;
+            await _BlogService.UpdateBlog(blog);
 
             return Ok("Blog updated successfully");
         }
@@ -73,7 +68,7 @@ namespace GlobalKnowledgeTask.Controllers
         [Route("DeleteBlog/id")]
         public async Task<IActionResult> DeleteBlog(int id)
         {
-            var existingBlog = _BlogService.GetBlogById(id);
+            var existingBlog = await _BlogService.GetBlogById(id);
 
             if (existingBlog == null)
             {

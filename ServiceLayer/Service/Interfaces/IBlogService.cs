@@ -12,8 +12,8 @@ namespace ServiceLayer.Service.Interfaces
     {
         Task<PagedResultDto<BlogDto>> GetAllBlogs(int page = 1, int pageSize = 10);
         Task<BlogDto> GetBlogById(int id);
-        Task AddBlog(BlogDto Blog);
-        Task UpdateBlog(BlogDto Blog);
+        Task AddBlog(CreateBlogDto Blog);
+        Task UpdateBlog(UpdateBlogDto Blog);
         Task DeleteBlog(int id);
         Task<List<BlogDto>> GetBlogsWithAuthorAsync();
         Task<List<CommentDto>> GetBlogCommentsAsync(int blogId);

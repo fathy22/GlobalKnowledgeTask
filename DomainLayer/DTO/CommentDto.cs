@@ -19,4 +19,18 @@ namespace DomainLayer.DTO
 
         public virtual BlogDto Blog { get; set; }
     }
+    public class CreateCommentDto
+    {
+        public string Text { get; set; }
+        public int AuthorId { get; set; }
+        public int BlogId { get; set; }
+    }
+
+    public class UpdateCommentDto
+    {
+        public int CommentId { get; set; }
+        public string Text { get; set; }
+        public int AuthorId { get; set; }
+        public int BlogId { get; set; }
+    }
 }

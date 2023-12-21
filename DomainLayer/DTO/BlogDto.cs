@@ -22,4 +22,24 @@ namespace DomainLayer.DTO
 
         public virtual List<CommentDto> Comments { get; set; }
     }
+    public class CreateBlogDto
+    {
+
+        public string Title { get; set; }
+
+        public string Content { get; set; }
+
+        public int AuthorId { get; set; }
+    }
+    public class UpdateBlogDto
+    {
+        public int BlogId { get; set; }
+
+        public string Title { get; set; }
+
+        public string Content { get; set; }
+
+        public int AuthorId { get; set; }
+    }
+
 }

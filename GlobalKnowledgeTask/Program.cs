@@ -14,6 +14,7 @@ using Swashbuckle.AspNetCore.Swagger;
 using Microsoft.AspNetCore.Builder;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Swashbuckle.AspNetCore.SwaggerUI;
+using ServiceLayer.Mapping;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,7 +33,7 @@ builder.Services.AddScoped<IAuthorService, AuthorService>();
 builder.Services.AddScoped<IProfileImageService, ProfileImageService>();
 builder.Services.AddScoped<IBlogService, BlogService>();
 builder.Services.AddScoped<ICommentService, CommentService>();
-builder.Services.AddAutoMapper(assemblyContainingProfiles);
+builder.Services.AddAutoMapper(typeof(MapperBuilder));
 builder.Services.AddCors((setup) =>
 {
     setup.AddPolicy("default", (options) =>
@@ -72,7 +73,10 @@ app.Map("/swagger", builder =>
         c.RoutePrefix = string.Empty;
     });
 });
-
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
 
 app.Run();
 

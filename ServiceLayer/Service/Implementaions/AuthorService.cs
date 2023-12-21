@@ -34,18 +34,44 @@ namespace ServiceLayer.Service.Implementaions
 
         }
 
-        public async Task AddAuthor(AuthorDto author)
+        public async Task AddAuthor(CreateAuthorDto author)
         {
-            var aut = _mapper.Map<Author>(author);
-            await _unitOfWork.GetRepository<Author>().Add(aut);
-            _unitOfWork.Save();
+            try
+            {
+                var aut = _mapper.Map<Author>(author);
+                await _unitOfWork.GetRepository<Author>().Add(aut);
+                _unitOfWork.Save();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+         
         }
 
-        public async Task UpdateAuthor(AuthorDto author)
+        public async Task UpdateAuthor(UpdateAuthorDto author)
         {
-            var aut = _mapper.Map<Author>(author);
-            await _unitOfWork.GetRepository<Author>().Update(aut);
-            _unitOfWork.Save();
+            try
+            {
+                var existingAuthor = await _unitOfWork.GetRepository<Author>().GetById(author.AuthorId);
+
+                if (existingAuthor == null)
+                {
+                    return;
+                }
+                _mapper.Map(author, existingAuthor);
+
+               await _unitOfWork.GetRepository<Author>().Update(existingAuthor);
+
+                     _unitOfWork.Save();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+          
         }
 
         public async Task DeleteAuthor(int id)

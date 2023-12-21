@@ -13,7 +13,6 @@ namespace DomainLayer.DTO
 {
     public class AuthorDto
     {
-        [Key]
         public int AuthorId { get; set; }
 
         public string Name { get; set; }
@@ -27,5 +26,19 @@ namespace DomainLayer.DTO
         public  ProfileImageDto ProfileImage { get; set; }
 
         public virtual List<BlogDto> Blogs { get; set; }
+    }
+    public class CreateAuthorDto
+    {
+        public string Name { get; set; }
+
+        public string Email { get; set; }
+        public int? ProfileImageId { get; set; }
+    }
+    public class UpdateAuthorDto
+    {
+        public int AuthorId { get; set; }
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public int? ProfileImageId { get; set; }
     }
 }

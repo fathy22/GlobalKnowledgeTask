@@ -39,19 +39,37 @@ namespace ServiceLayer.Service.Implementaions
 
         }
 
-        public async Task AddComment(CommentDto Comment)
+        public async Task AddComment(CreateCommentDto Comment)
         {
             var aut = _mapper.Map<Comment>(Comment);
             await _unitOfWork.GetRepository<Comment>().Add(aut);
             _unitOfWork.Save();
         }
 
-        public async Task UpdateComment(CommentDto Comment)
+        public async Task UpdateComment(UpdateCommentDto comment)
         {
-            var aut = _mapper.Map<Comment>(Comment);
-            await _unitOfWork.GetRepository<Comment>().Update(aut);
-            _unitOfWork.Save();
+            try
+            {
+                var existingComment = await _unitOfWork.GetRepository<Comment>().GetById(comment.CommentId);
+
+                if (existingComment == null)
+                {
+                    return;
+                }
+                _mapper.Map(comment, existingComment);
+
+                await _unitOfWork.GetRepository<Comment>().Update(existingComment);
+
+                _unitOfWork.Save();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
         }
+
 
         public async Task DeleteComment(int id)
         {

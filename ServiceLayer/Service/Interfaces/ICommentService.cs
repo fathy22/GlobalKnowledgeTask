@@ -11,8 +11,8 @@ namespace ServiceLayer.Service.Interfaces
     {
         Task<List<AuthorDto>> GetAllAuthors();
         Task<AuthorDto> GetAuthorById(int id);
-        Task AddAuthor(AuthorDto author);
-        Task UpdateAuthor(AuthorDto author);
+        Task AddAuthor(CreateAuthorDto author);
+        Task UpdateAuthor(UpdateAuthorDto author);
         Task DeleteAuthor(int id);
     }
 }

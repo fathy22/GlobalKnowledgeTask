@@ -2,6 +2,7 @@
 using DomainLayer.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ServiceLayer.Service.Implementaions;
 using ServiceLayer.Service.Interfaces;
 using ServiceLayer.UnitOfWorks;
 
@@ -32,7 +33,7 @@ namespace GlobalKnowledgeTask.Controllers
         [Route("GetCommentById/id")]
         public async Task<IActionResult> GetCommentById(int id)
         {
-            var Comment = _CommentService.GetCommentById(id);
+            var Comment =await _CommentService.GetCommentById(id);
 
             if (Comment == null)
             {
@@ -44,7 +45,7 @@ namespace GlobalKnowledgeTask.Controllers
 
         [HttpPost]
         [Route("CreateComment")]
-        public  async Task<IActionResult> CreateComment([FromBody] CommentDto CommentDto)
+        public  async Task<IActionResult> CreateComment([FromBody] CreateCommentDto CommentDto)
         {
             await _CommentService.AddComment(CommentDto);
 
@@ -53,16 +54,10 @@ namespace GlobalKnowledgeTask.Controllers
 
         [HttpPut]
         [Route("UpdateComment/id")]
-        public async Task<IActionResult> UpdateComment(int id, [FromBody] CommentDto CommentDto)
+        public async Task<IActionResult> UpdateComment(int id, [FromBody] UpdateCommentDto comment)
         {
-            var existingComment = _CommentService.GetCommentById(id);
-
-            if (existingComment == null)
-            {
-                return NotFound();
-            }
-            CommentDto.CommentId = id;
-           await _CommentService.UpdateComment(CommentDto);
+            comment.CommentId = id;
+            await _CommentService.UpdateComment(comment);
 
             return Ok("Comment updated successfully");
         }
@@ -71,7 +66,7 @@ namespace GlobalKnowledgeTask.Controllers
         [Route("DeleteComment/id")]
         public async Task<IActionResult> DeleteComment(int id)
         {
-            var existingComment = _CommentService.GetCommentById(id);
+            var existingComment = await _CommentService.GetCommentById(id);
 
             if (existingComment == null)
             {

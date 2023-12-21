@@ -52,18 +52,35 @@ namespace ServiceLayer.Service.Implementaions
 
         }
 
-        public async Task AddBlog(BlogDto Blog)
+        public async Task AddBlog(CreateBlogDto Blog)
         {
             var aut = _mapper.Map<Blog>(Blog);
             await _unitOfWork.GetRepository<Blog>().Add(aut);
             _unitOfWork.Save();
         }
 
-        public async Task UpdateBlog(BlogDto Blog)
+        public async Task UpdateBlog(UpdateBlogDto blog)
         {
-            var aut = _mapper.Map<Blog>(Blog);
-            await _unitOfWork.GetRepository<Blog>().Update(aut);
-            _unitOfWork.Save();
+            try
+            {
+                var existingBlog = await _unitOfWork.GetRepository<Blog>().GetById(blog.BlogId);
+
+                if (existingBlog == null)
+                {
+                    return;
+                }
+                _mapper.Map(blog, existingBlog);
+
+                await _unitOfWork.GetRepository<Blog>().Update(existingBlog);
+
+                _unitOfWork.Save();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
         }
 
         public async Task DeleteBlog(int id)

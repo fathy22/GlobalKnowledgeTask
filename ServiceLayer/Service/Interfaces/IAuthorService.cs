@@ -11,8 +11,8 @@ namespace ServiceLayer.Service.Interfaces
     {
         Task<List<CommentDto>> GetAllComments();
         Task<CommentDto> GetCommentById(int id);
-        Task AddComment(CommentDto Comment);
-        Task UpdateComment(CommentDto Comment);
+        Task AddComment(CreateCommentDto Comment);
+        Task UpdateComment(UpdateCommentDto Comment);
         Task DeleteComment(int id);
     }
 }
