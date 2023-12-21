@@ -9,7 +9,7 @@ namespace ServiceLayer.Service.Interfaces
 {
     public interface ICommentService
     {
-        Task<List<CommentDto>> GetAllComments();
+        Task<List<CommentDto>> GetAllComments(); 
         Task<CommentDto> GetCommentById(int id);
         Task AddComment(CreateCommentDto Comment);
         Task UpdateComment(UpdateCommentDto Comment);
