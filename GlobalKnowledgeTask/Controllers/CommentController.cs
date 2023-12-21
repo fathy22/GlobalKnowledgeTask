@@ -66,13 +66,6 @@ namespace GlobalKnowledgeTask.Controllers
         [Route("DeleteComment/id")]
         public async Task<IActionResult> DeleteComment(int id)
         {
-            var existingComment = await _CommentService.GetCommentById(id);
-
-            if (existingComment == null)
-            {
-                return NotFound();
-            }
-
            await _CommentService.DeleteComment(id);
 
             return Ok("Comment deleted successfully");

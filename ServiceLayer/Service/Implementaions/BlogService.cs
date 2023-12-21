@@ -7,6 +7,7 @@ using ServiceLayer.UnitOfWorks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -85,9 +86,13 @@ namespace ServiceLayer.Service.Implementaions
 
         public async Task DeleteBlog(int id)
         {
-            var Blog=await GetBlogById(id);
-            var aut = _mapper.Map<Blog>(Blog);
-            await _unitOfWork.GetRepository<Blog>().Delete(aut);
+            var existingBlog = await _unitOfWork.GetRepository<Blog>().GetById(id);
+
+            if (existingBlog == null)
+            {
+                return;
+            }
+            await _unitOfWork.GetRepository<Blog>().Delete(existingBlog);
             _unitOfWork.Save();
         }
         public async Task<List<BlogDto>> GetBlogsWithAuthorAsync()

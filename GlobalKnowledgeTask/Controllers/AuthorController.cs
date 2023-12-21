@@ -65,13 +65,6 @@ namespace GlobalKnowledgeTask.Controllers
         [Route("DeleteAuthor/id")]
         public async Task<IActionResult> DeleteAuthor(int id)
         {
-            var existingAuthor = _authorService.GetAuthorById(id);
-
-            if (existingAuthor == null)
-            {
-                return NotFound();
-            }
-
            await _authorService.DeleteAuthor(id);
 
             return Ok("Author deleted successfully");

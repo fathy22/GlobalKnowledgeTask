@@ -76,10 +76,15 @@ namespace ServiceLayer.Service.Implementaions
 
         public async Task DeleteAuthor(int id)
         {
-            var author=await GetAuthorById(id);
-            var aut = _mapper.Map<Author>(author);
-            await _unitOfWork.GetRepository<Author>().Delete(aut);
+            var existingAuthor = await _unitOfWork.GetRepository<Author>().GetById(id);
+
+            if (existingAuthor == null)
+            {
+                return;
+            }
+            await _unitOfWork.GetRepository<Author>().Delete(existingAuthor);
             _unitOfWork.Save();
+
         }
     }
 }

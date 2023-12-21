@@ -68,13 +68,6 @@ namespace GlobalKnowledgeTask.Controllers
         [Route("DeleteBlog/id")]
         public async Task<IActionResult> DeleteBlog(int id)
         {
-            var existingBlog = await _BlogService.GetBlogById(id);
-
-            if (existingBlog == null)
-            {
-                return NotFound();
-            }
-
            await _BlogService.DeleteBlog(id);
 
             return Ok("Blog deleted successfully");

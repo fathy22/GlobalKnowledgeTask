@@ -73,9 +73,13 @@ namespace ServiceLayer.Service.Implementaions
 
         public async Task DeleteComment(int id)
         {
-            var Comment=await GetCommentById(id);
-            var aut = _mapper.Map<Comment>(Comment);
-            await _unitOfWork.GetRepository<Comment>().Delete(aut);
+            var existingComment = await _unitOfWork.GetRepository<Comment>().GetById(id);
+
+            if (existingComment == null)
+            {
+                return;
+            }
+            await _unitOfWork.GetRepository<Comment>().Delete(existingComment);
             _unitOfWork.Save();
         }
     }
